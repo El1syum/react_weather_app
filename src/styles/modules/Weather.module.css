@@ -29,6 +29,12 @@
     border-radius: 30px;
     padding: 20px;
     margin-top: 30px;
+    display: flex;
+}
+
+.weather__details__left {}
+.weather__details__right {}
+.weather__icon {
 }
 
 .weather__details div {
