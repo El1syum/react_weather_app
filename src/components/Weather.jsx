@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import classes from '../styles/modules/Weather.module.css'
 import axios from 'axios';
+import WeatherCard from "./UI/WeatherCard";
 
 const Weather = () => {
     const [value, setValue] = useState('')
@@ -17,7 +18,7 @@ const Weather = () => {
 
     useEffect(() => {
         getWeather(place)
-    }, [])
+    }, [place])
 
     const onChange = (e) => {
         setValue(e.target.value)
@@ -33,21 +34,9 @@ const Weather = () => {
                     onChange={(e) => onChange(e)}
                     placeholder={'Input a place'}
                 />
-                <button className={classes.weather__btn} onClick={() => console.log(value)}>Search</button>
+                <button className={classes.weather__btn} onClick={() => setPlace(value)}>Search</button>
             </div>
-            <div className={classes.weather__details}>
-                <div className={classes.weather__details__left}>
-                    <div>{weather?.location?.country}, {weather?.location?.name}</div>
-                    <div>{weather?.current?.last_updated}</div>
-                    <div>Temp - {weather?.current?.temp_c} °C</div>
-                    <div>Feels like - {weather?.current?.feelslike_c} °C</div>
-                    <div>Condition - {weather?.current?.condition?.text}</div>
-                    <div>Wind - {weather?.current?.wind_kph} kph</div>
-                </div>
-                <div className={classes.weather__details__right}>
-                    <img src={weather?.current?.condition?.icon} className={classes.weather__icon}></img>
-                </div>
-            </div>
+            <WeatherCard weather={weather} />
         </div>
     );
 };
