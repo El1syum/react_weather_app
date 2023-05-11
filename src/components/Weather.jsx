@@ -5,15 +5,25 @@ import WeatherCard from "./UI/WeatherCard";
 
 const Weather = () => {
     const [value, setValue] = useState('')
-    const [place, setPlace] = useState('Moscow')
+    const [place, setPlace] = useState('moscow')
     const [weather, setWeather] = useState({})
 
     const getWeather = async (place) => {
-        const response = await axios.get(
-            `http://api.weatherapi.com/v1/current.json?key=7bc127314e8b4fccb7a175601230905&q=${place}`
-        )
-        console.log(response.status)
-        setWeather(response.data)
+        if (place !== '') {
+            try {
+                const response = await axios.get(
+                    `http://api.weatherapi.com/v1/current.json?key=7bc127314e8b4fccb7a175601230905&q=${place}`
+                )
+                console.log(response)
+                setWeather(response.data)
+            } catch (e) {
+                console.log(e)
+            } finally {
+                setValue('')
+            }
+        }
+
+
     }
 
     useEffect(() => {
@@ -36,7 +46,7 @@ const Weather = () => {
                 />
                 <button className={classes.weather__btn} onClick={() => setPlace(value)}>Search</button>
             </div>
-            <WeatherCard weather={weather} />
+            <WeatherCard weather={weather}/>
         </div>
     );
 };
