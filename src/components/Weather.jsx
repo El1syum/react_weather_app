@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import classes from '../styles/modules/Weather.module.css'
 import axios from 'axios';
 import WeatherCard from "./UI/WeatherCard";
+import WeatherSearch from "./UI/WeatherSearch";
 
 const Weather = () => {
     const [value, setValue] = useState('')
@@ -16,36 +17,30 @@ const Weather = () => {
                 )
                 console.log(response)
                 setWeather(response.data)
+                localStorage.setItem('place', place)
             } catch (e) {
                 console.log(e)
             } finally {
                 setValue('')
             }
         }
-
-
     }
+
+    useEffect(() => {
+        const localPlace = localStorage.getItem('place')
+        if (localPlace) {
+            setPlace(localPlace)
+        }
+    }, [])
 
     useEffect(() => {
         getWeather(place)
     }, [place])
 
-    const onChange = (e) => {
-        setValue(e.target.value)
-    }
 
     return (
         <div className={classes.weather}>
-            <div className={classes.weather__fields}>
-                <input
-                    className={classes.weather__input}
-                    type="text"
-                    value={value}
-                    onChange={(e) => onChange(e)}
-                    placeholder={'Input a place'}
-                />
-                <button className={classes.weather__btn} onClick={() => setPlace(value)}>Search</button>
-            </div>
+            <WeatherSearch setValue={setValue} value={value} setPlace={setPlace} />
             <WeatherCard weather={weather}/>
         </div>
     );
