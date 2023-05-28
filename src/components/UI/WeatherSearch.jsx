@@ -7,6 +7,16 @@ const WeatherSearch = ({setValue, setPlace, value}) => {
         setValue(e.target.value)
     }
 
+    const onClick = () => {
+        setPlace(value)
+    }
+
+    const onKeyPress = (e) => {
+        if (e.keyCode === 13) {
+            onClick()
+        }
+    }
+
     return (
         <div className={classes.weather__fields}>
             <input
@@ -15,8 +25,13 @@ const WeatherSearch = ({setValue, setPlace, value}) => {
                 value={value}
                 onChange={(e) => onChange(e)}
                 placeholder={'Input a place'}
+                onKeyDown={e => onKeyPress(e)}
             />
-            <button className={classes.weather__btn} onClick={() => setPlace(value)}>Search</button>
+            <button
+                className={classes.weather__btn}
+                onClick={() => onClick()}
+                type={"submit"}
+            >Search</button>
         </div>
     );
 };
